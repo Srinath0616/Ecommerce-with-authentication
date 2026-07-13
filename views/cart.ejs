@@ -1,0 +1,193 @@
+<%- include('./partials/header') %>
+
+<%
+let totalMRP = 0;
+let totalDiscount = 0;
+const platformFee = 20;
+
+user.cart.forEach(item => {
+    totalMRP += item.price;
+    totalDiscount += item.discount;
+});
+
+const finalBill = totalMRP - totalDiscount + platformFee;
+%>
+
+<div class="min-h-screen bg-gray-100 px-16 py-12">
+
+    <div class="flex gap-10">
+
+        <!-- Cart Items -->
+        <div class="w-[65%]">
+
+            <h1 class="text-3xl font-bold mb-8">
+                My Cart
+            </h1>
+
+            <div class="space-y-6">
+
+                <% user.cart.forEach(function(item){ %>
+
+                <div class="bg-white rounded-2xl shadow-md overflow-hidden flex">
+
+                    <div class="w-56 h-56 flex items-center justify-center <%= item.bgcolor %>">
+
+                        <img
+                            src="data:image/jpeg;base64,<%= item.image.toString('base64') %>"
+                            class="h-40 object-contain"
+                            alt="<%= item.name %>">
+
+                    </div>
+
+                    <div class="flex-1 p-8 flex flex-col justify-between">
+
+                        <div>
+
+                            <h2 class="text-2xl font-semibold">
+                                <%= item.name %>
+                            </h2>
+
+                            <p class="text-gray-500 mt-2">
+                                Premium Collection
+                            </p>
+
+                        </div>
+
+                        <div class="flex justify-between items-end">
+
+                            <div>
+
+                                <p class="text-gray-500">
+                                    Price
+                                </p>
+
+                                <h2 class="text-3xl font-bold">
+                                    ₹ <%= item.price %>
+                                </h2>
+
+                                <% if(item.discount > 0){ %>
+
+                                <p class="text-green-600 mt-1">
+                                    Discount ₹ <%= item.discount %>
+                                </p>
+
+                                <% } %>
+
+                            </div>
+
+                            <div class="flex items-center gap-3">
+
+                                <button
+                                    class="w-9 h-9 rounded-full bg-gray-200 hover:bg-gray-300 transition">
+                                    <i class="ri-subtract-line"></i>
+                                </button>
+
+                                <div
+                                    class="w-10 h-9 rounded-lg bg-gray-100 flex items-center justify-center font-semibold">
+                                    1
+                                </div>
+
+                                <button
+                                    class="w-9 h-9 rounded-full bg-gray-200 hover:bg-gray-300 transition">
+                                    <i class="ri-add-line"></i>
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <% }) %>
+
+            </div>
+
+        </div>
+
+        <!-- Order Summary -->
+        <div class="w-[35%]">
+
+            <div class="bg-white rounded-2xl shadow-lg p-8 sticky top-8">
+
+                <h2 class="text-3xl font-bold mb-8">
+                    Price Details
+                </h2>
+
+                <div class="space-y-5">
+
+                    <div class="flex justify-between text-gray-600">
+
+                        <span>Total MRP</span>
+
+                        <span class="font-medium text-black">
+                            ₹ <%= totalMRP %>
+                        </span>
+
+                    </div>
+
+                    <div class="flex justify-between text-gray-600">
+
+                        <span>Total Discount</span>
+
+                        <span class="text-green-600">
+                            -₹ <%= totalDiscount %>
+                        </span>
+
+                    </div>
+
+                    <div class="flex justify-between text-gray-600">
+
+                        <span>Platform Fee</span>
+
+                        <span>
+                            ₹ <%= platformFee %>
+                        </span>
+
+                    </div>
+
+                    <div class="flex justify-between text-gray-600">
+
+                        <span>Shipping Fee</span>
+
+                        <span class="text-green-600 font-semibold">
+                            FREE
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <hr class="my-8">
+
+                <div class="flex justify-between items-center">
+
+                    <h2 class="text-2xl font-semibold">
+                        Total Amount
+                    </h2>
+
+                    <h2 class="text-3xl font-bold text-green-600">
+                        ₹ <%= finalBill %>
+                    </h2>
+
+                </div>
+
+                <button
+                    class="mt-10 w-full bg-black text-white py-4 rounded-xl text-lg font-semibold hover:bg-gray-800 transition">
+                    Proceed to Checkout
+                </button>
+
+                <div class="mt-6 text-sm text-gray-500 text-center">
+                    🔒 Secure Payments • Easy Returns • Fast Delivery
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<%- include('./partials/footer') %>
