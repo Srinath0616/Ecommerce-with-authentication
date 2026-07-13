@@ -14,11 +14,16 @@ const expressSession = require("express-session");
 const flash = require("connect-flash"); 
 const dotenv = require("dotenv").config();
 
+console.log("MONGODB_URI:", process.env.MONGODB_URI);
+console.log("JWT_KEY:", process.env.JWT_KEY);
+console.log("EXPRESS_SESSION_SECRET:", process.env.EXPRESS_SESSION_SECRET);
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(
+    
     expressSession({
         resave:false,
         saveUninitialized:false,
@@ -45,4 +50,9 @@ const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
     console.log(`Server running on ${PORT}`);
+});
+
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send(err.stack);
 });
