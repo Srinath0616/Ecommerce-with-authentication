@@ -50,7 +50,7 @@ module.exports.loginUser = async function (req, res) {
       res.cookie("token", token);
       // res.send("Yo loogged In");
       console.log("Redirecting to Shop Page")
-      return res.redirect("/shop"); // Remember When we use redirect if you are at x route and try to do redirect("y") then it will reach /x/y.com url but if you do redirect("/y") then /y.com url will be reached
+      return res.redirect("/Home"); // Remember When we use redirect if you are at x route and try to do redirect("y") then it will reach /x/y.com url but if you do redirect("/y") then /y.com url will be reached
     } else {
       req.flash("error", "Something is Wrong");
       return res.redirect("/");

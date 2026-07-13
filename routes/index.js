@@ -8,6 +8,14 @@ router.get("/", (req, res) => {
   let error = req.flash("error");
   res.render("index", { error, loggedIn: false });
 });
+router.get("/Home", isLoggedIn, (req, res) => {
+  res.render("Home");
+});
+router.get("/profile", isLoggedIn, async (req, res) => {
+  let user = await userModel.findOne({email:req.user.email});
+  res.render("Profile",{user});
+  
+});
 
 router.get("/shop", isLoggedIn, async function (req, res) {
   let products = await productModel.find();
