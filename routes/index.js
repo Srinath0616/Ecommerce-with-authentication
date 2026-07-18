@@ -12,9 +12,8 @@ router.get("/Home", isLoggedIn, (req, res) => {
   res.render("Home");
 });
 router.get("/profile", isLoggedIn, async (req, res) => {
-  let user = await userModel.findOne({email:req.user.email});
-  res.render("Profile",{user});
-  
+  let user = await userModel.findOne({ email: req.user.email });
+  res.render("Profile", { user });
 });
 
 router.get("/shop", isLoggedIn, async function (req, res) {
@@ -32,9 +31,20 @@ router.get("/addtocart/:productid", isLoggedIn, async function (req, res) {
 
 router.get("/cart", isLoggedIn, async function (req, res) {
   let user = await userModel
-    .findOne({ email: req.user.email })
-    .populate("cart");
-  res.render("cart", { user });
+  .findOne({ email: req.user.email })
+  .populate("cart");
+  let success = req.flash("success");
+  res.render("cart", { user, success });
+});
+
+router.get("/removefromcart/:productid", isLoggedIn, async (req, res) => {
+  let user = await userModel.findOne({ email: req.user.email });
+  user.cart = user.cart.filter(
+    product => product.toString() !== req.params.productid
+  );
+  await user.save();  
+  req.flash("success","Removed From Cart");
+  res.redirect("/shop");
 });
 // router.get("/shop", isLoggedIn, function (req, res) {
 //   res.render("shop");
