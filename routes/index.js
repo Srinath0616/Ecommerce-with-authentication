@@ -31,20 +31,65 @@ router.get("/addtocart/:productid", isLoggedIn, async function (req, res) {
 
 router.get("/cart", isLoggedIn, async function (req, res) {
   let user = await userModel
-  .findOne({ email: req.user.email })
-  .populate("cart");
+    .findOne({ email: req.user.email })
+    .populate("cart");
+
+  let quantity = {};
+  let uniqueProducts = [];
+
+  user.cart.forEach((product) => {
+    let id = product._id.toString();
+
+    if (quantity[id]) {
+      quantity[id]++;
+    } else {
+      quantity[id] = 1;
+      uniqueProducts.push(product);
+    }
+  });
+
   let success = req.flash("success");
-  res.render("cart", { user, success });
+
+  res.render("cart", {
+    user,
+    success,
+    quantity,
+    uniqueProducts,
+  });
 });
 
 router.get("/removefromcart/:productid", isLoggedIn, async (req, res) => {
   let user = await userModel.findOne({ email: req.user.email });
   user.cart = user.cart.filter(
-    product => product.toString() !== req.params.productid
+    (product) => product.toString() !== req.params.productid,
   );
-  await user.save();  
-  req.flash("success","Removed From Cart");
+  await user.save();
+  req.flash("success", "Removed From Cart");
   res.redirect("/shop");
+});
+router.get("/increaseCount/:productid", isLoggedIn, async (req, res) => {
+  let user = await userModel.findOne({ email: req.user.email });
+
+  user.cart.push(req.params.productid);
+
+  await user.save();
+
+  res.redirect("/cart");
+});
+router.get("/decreaseCount/:productid", isLoggedIn, async (req, res) => {
+  let user = await userModel.findOne({ email: req.user.email });
+
+  let index = user.cart.findIndex(
+    (product) => product.toString() === req.params.productid,
+  );
+
+  if (index !== -1) {
+    user.cart.splice(index, 1);
+  }
+
+  await user.save();
+
+  res.redirect("/cart");
 });
 // router.get("/shop", isLoggedIn, function (req, res) {
 //   res.render("shop");
