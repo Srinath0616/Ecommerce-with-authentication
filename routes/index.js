@@ -8,7 +8,10 @@ router.get("/", (req, res) => {
   let error = req.flash("error");
   res.render("index", { error, loggedIn: false });
 });
-router.get("/Home", isLoggedIn, (req, res) => {
+router.post("/Home", (req, res) => {
+  res.render("Home");
+});
+router.get("/Home",isLoggedIn, (req, res) => {
   res.render("Home");
 });
 router.get("/profile", isLoggedIn, async (req, res) => {
