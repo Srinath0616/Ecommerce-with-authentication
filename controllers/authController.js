@@ -7,7 +7,10 @@ const flash = require("connect-flash");
 module.exports.registerUser = async function (req, res) {
   try {
     let { email, password, fullname } = req.body;
-
+    if (email === "" || password==="" || fullname==="") {
+      req.flash("error", "Enter details");
+      return res.redirect("/");
+    }
     let user = await userModel.findOne({ email: email });
     if (user) {
       req.flash("error", "You have an existing account, Try to Login");
@@ -49,7 +52,7 @@ module.exports.loginUser = async function (req, res) {
       let token = generateToken(user);
       res.cookie("token", token);
       // res.send("Yo loogged In");
-      console.log("Redirecting to Shop Page")
+      console.log("Redirecting to Shop Page");
       return res.redirect("/Home"); // Remember When we use redirect if you are at x route and try to do redirect("y") then it will reach /x/y.com url but if you do redirect("/y") then /y.com url will be reached
     } else {
       req.flash("error", "Something is Wrong");
@@ -57,7 +60,7 @@ module.exports.loginUser = async function (req, res) {
     }
   });
 };
-module.exports.logOut = async function(req,res){
-  res.cookie("token","");
+module.exports.logOut = async function (req, res) {
+  res.cookie("token", "");
   return res.redirect("/");
-}
+};

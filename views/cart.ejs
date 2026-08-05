@@ -3,208 +3,114 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cart</title>
 </head>
+
 <body>
+
 <%- include('./partials/header') %>
 
-    <% if(success.length> 0){ %>
-        <div class="fixed top-5 left-1/2 -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50">
-            <%= success %>
-        </div>
-        <% } %>
-            <% let totalMRP=0; let totalDiscount=0; const platformFee=20; user.cart.forEach(item=> {
-                totalMRP += item.price;
-                totalDiscount += item.discount;
-                });
+<% if(success.length > 0){ %>
+<div class="fixed top-5 left-1/2 -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50">
+    <%= success %>
+</div>
+<% } %>
 
-                const finalBill = totalMRP - totalDiscount + platformFee;
+<%
+let totalMRP = 0;
+let totalDiscount = 0;
+const platformFee = 20;
 
-                %>
+user.cart.forEach(item=>{
+    totalMRP += item.price;
+    totalDiscount += item.discount;
+});
 
-                <div class="min-h-screen bg-gray-100 px-16 py-12">
+const finalBill = totalMRP - totalDiscount + platformFee;
+%>
 
-                    <div class="flex gap-10">
+<div class="min-h-screen bg-gray-100 px-4 md:px-8 lg:px-16 py-8 md:py-12">
 
-                        <div class="w-[65%]">
+    <div class="flex flex-col lg:flex-row gap-8">
 
-                            <h1 class="text-3xl font-bold mb-8">
-                                My Cart
-                            </h1>
+        <div class="w-full lg:w-[65%]">
 
-                            <div class="space-y-6">
+            <h1 class="text-3xl font-bold mb-8">
+                My Cart
+            </h1>
 
-                                <% uniqueProducts.forEach(function(item){ %>
+            <div class="space-y-6">
 
-                                    <div class="bg-white rounded-2xl shadow-md overflow-hidden flex">
+                <% uniqueProducts.forEach(function(item){ %>
 
-                                        <div class="w-56 h-56 flex items-center justify-center <%= item.bgcolor %>">
+                <div class="bg-white rounded-2xl shadow-md overflow-hidden flex flex-col sm:flex-row">
 
-                                            <img src="data:image/jpeg;base64,<%= item.image.toString('base64') %>"
-                                                class="h-40 object-contain" alt="<%= item.name %>">
+                    <div class="w-full sm:w-56 h-56 flex items-center justify-center <%= item.bgcolor %>">
 
-                                        </div>
+                        <img
+                            src="data:image/jpeg;base64,<%= item.image.toString('base64') %>"
+                            class="h-40 object-contain"
+                            alt="<%= item.name %>">
 
-                                        <div class="flex-1 p-8 flex flex-col justify-between">
+                    </div>
 
-                                            <div>
+                    <div class="flex-1 p-6 flex flex-col justify-between">
 
-                                                <h2 class="text-2xl font-semibold">
-                                                    <%= item.name %>
-                                                </h2>
+                        <div>
 
-                                                <p class="text-gray-500 mt-2">
-                                                    Premium Collection
-                                                </p>
+                            <h2 class="text-xl md:text-2xl font-semibold">
+                                <%= item.name %>
+                            </h2>
 
-                                            </div>
-
-                                            <div class="flex justify-between items-end">
-
-                                                <div>
-
-                                                    <p class="text-gray-500">
-                                                        Price
-                                                    </p>
-
-                                                    <h2 class="text-3xl font-bold">
-                                                        ₹ <%= item.price %>
-                                                    </h2>
-
-                                                    <% if(item.discount> 0){ %>
-
-                                                        <p class="text-green-600 mt-1">
-                                                            Discount ₹ <%= item.discount %>
-                                                        </p>
-
-                                                        <% } %>
-
-                                                </div>
-
-                                                <div class="flex items-center justify-center gap-3">
-
-                                                    <a class="flex items-center justify-center gap-3"
-                                                        href="/removefromcart/<%= item._id %>">
-                                                        <button
-                                                            class="w-16 h-7 rounded-lg bg-red-400 hover:bg-gray-300 transition">remove
-                                                        </button>
-                                                    </a>
-                                                    <a class="flex items-center justify-center gap-3"
-                                                        href="/decreaseCount/<%= item._id %>">
-                                                        <button
-                                                            class="w-9 h-9 rounded-full bg-gray-200 hover:bg-gray-300 transition">
-                                                            <i class="ri-subtract-line "></i>
-                                                        </button>
-                                                    </a>
-
-                                                    <div
-                                                        class="w-10 h-9 rounded-lg bg-gray-100 flex items-center justify-center font-semibold">
-                                                        <%= quantity[item._id.toString()] %>
-                                                    </div>
-
-                                                    <a class="flex items-center justify-center gap-3"
-                                                        href="/increaseCount/<%= item._id %>">
-                                                        <button
-                                                            class="w-9 h-9 rounded-full bg-gray-200 hover:bg-gray-300 transition">
-                                                            <i class="ri-add-line "></i>
-                                                        </button>
-                                                    </a>
-
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-                                    <% }) %>
-
-                            </div>
+                            <p class="text-gray-500 mt-2">
+                                Premium Collection
+                            </p>
 
                         </div>
 
-                        <div class="w-[35%]">
+                        <div class="flex flex-col md:flex-row md:justify-between md:items-end gap-6 mt-6">
 
-                            <div class="bg-white rounded-2xl shadow-lg p-8 sticky top-8">
+                            <div>
 
-                                <h2 class="text-3xl font-bold mb-8">
-                                    Price Details
+                                <p class="text-gray-500">
+                                    Price
+                                </p>
+
+                                <h2 class="text-2xl md:text-3xl font-bold">
+                                    ₹ <%= item.price %>
                                 </h2>
 
-                                <div class="space-y-5">
+                                <% if(item.discount > 0){ %>
 
-                                    <div class="flex justify-between text-gray-600">
+                                <p class="text-green-600 mt-1">
+                                    Discount ₹ <%= item.discount %>
+                                </p>
 
-                                        <span>Total MRP</span>
+                                <% } %>
 
-                                        <span class="font-medium text-black">
-                                            ₹ <%= totalMRP %>
-                                        </span>
+                            </div>
 
-                                    </div>
+                            <div class="flex flex-wrap items-center gap-3">
 
-                                    <div class="flex justify-between text-gray-600">
+                                <a href="/removefromcart/<%= item._id %>">
+                                    <button class="px-4 py-2 rounded-lg bg-red-400 hover:bg-red-500 text-white transition">
+                                        Remove
+                                    </button>
+                                </a>
 
-                                        <span>Total Discount</span>
+                                <a href="/decreaseCount/<%= item._id %>">
+                                    <button class="w-9 h-9 rounded-full bg-gray-200 hover:bg-gray-300 transition">
+                                        <i class="ri-subtract-line"></i>
+                                    </button>
+                                </a>
 
-                                        <span class="text-green-600">
-                                            -₹ <%= totalDiscount %>
-                                        </span>
-
-                                    </div>
-
-                                    <div class="flex justify-between text-gray-600">
-
-                                        <span>Platform Fee</span>
-
-                                        <span>
-                                            ₹ <% if (totalMRP> 0) { %>
-                                                <%= platformFee%>
-                                                    <%} else { %>
-                                                        0
-                                                        <% } %>
-
-                                        </span>
-
-                                    </div>
-
-                                    <div class="flex justify-between text-gray-600">
-
-                                        <span>Shipping Fee</span>
-
-                                        <span class="text-green-600 font-semibold">
-                                            FREE
-                                        </span>
-
-                                    </div>
-
+                                <div class="w-10 h-9 rounded-lg bg-gray-100 flex items-center justify-center font-semibold">
+                                    <%= quantity[item._id.toString()] %>
                                 </div>
 
-                                <hr class="my-8">
-
-                                <div class="flex justify-between items-center">
-
-                                    <h2 class="text-2xl font-semibold">
-                                        Total Amount
-                                    </h2>
-
-                                    <h2 class="text-3xl font-bold text-green-600">
-                                        ₹ <% if(finalBill===20){%>
-                                            0
-                                            <%} else{%>
-                                                <%= finalBill %>
-                                                    <%}%>
-                                    </h2>
-
-                                </div>
-
-                                <button
-                                    class="mt-10 w-full bg-black text-white py-4 rounded-xl text-lg font-semibold hover:bg-gray-800 transition">
-                                    Proceed to Checkout
-                                </button>
-
-                                <div class="mt-6 text-sm text-gray-500 text-center">
-                                    🔒 Secure Payments • Easy Returns • Fast Delivery
-                                </div>
+                                <a href="/increaseCount/<%= item._id %>">
+                                    <button class="w-9 h-9 rounded-full bg-gray-200 hover:bg-gray-300 transition">
+                                        <i class="ri-add-line"></i>
+                                    </button>
+                                </a>
 
                             </div>
 
@@ -214,4 +120,101 @@
 
                 </div>
 
-                <%- include('./partials/footer') %>
+                <% }) %>
+
+            </div>
+
+        </div>
+
+        <div class="w-full lg:w-[35%]">
+
+            <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8 lg:sticky lg:top-8">
+
+                <h2 class="text-2xl md:text-3xl font-bold mb-8">
+                    Price Details
+                </h2>
+
+                <div class="space-y-5">
+
+                    <div class="flex justify-between text-gray-600">
+                        <span>Total MRP</span>
+                        <span class="font-medium text-black">
+                            ₹ <%= totalMRP %>
+                        </span>
+                    </div>
+
+                    <div class="flex justify-between text-gray-600">
+                        <span>Total Discount</span>
+                        <span class="text-green-600">
+                            -₹ <%= totalDiscount %>
+                        </span>
+                    </div>
+
+                    <div class="flex justify-between text-gray-600">
+
+                        <span>Platform Fee</span>
+
+                        <span>
+                            ₹
+                            <% if(totalMRP > 0){ %>
+                                <%= platformFee %>
+                            <% } else { %>
+                                0
+                            <% } %>
+                        </span>
+
+                    </div>
+
+                    <div class="flex justify-between text-gray-600">
+
+                        <span>Shipping Fee</span>
+
+                        <span class="text-green-600 font-semibold">
+                            FREE
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <hr class="my-8">
+
+                <div class="flex justify-between items-center">
+
+                    <h2 class="text-xl md:text-2xl font-semibold">
+                        Total Amount
+                    </h2>
+
+                    <h2 class="text-2xl md:text-3xl font-bold text-green-600">
+
+                        ₹
+
+                        <% if(finalBill === 20){ %>
+                            0
+                        <% } else { %>
+                            <%= finalBill %>
+                        <% } %>
+
+                    </h2>
+
+                </div>
+
+                <button class="mt-10 w-full bg-black text-white py-4 rounded-xl text-lg font-semibold hover:bg-gray-800 transition">
+                    Proceed to Checkout
+                </button>
+
+                <div class="mt-6 text-sm text-gray-500 text-center">
+                    🔒 Secure Payments • Easy Returns • Fast Delivery
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<%- include('./partials/footer') %>
+
+</body>

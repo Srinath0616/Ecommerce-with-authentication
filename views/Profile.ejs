@@ -3,63 +3,72 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
 </head>
+
 <%- include('./partials/header') %>
 
-<div class="min-h-screen bg-gray-100 py-12 px-6">
+<div class="min-h-screen bg-gray-100 py-8 md:py-12 px-4 sm:px-6">
 
     <div class="max-w-3xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
 
-        <div class="bg-black text-white p-8 flex items-center gap-6">
+        <div class="bg-black text-white p-6 md:p-8 flex flex-col sm:flex-row items-center sm:items-center gap-6 text-center sm:text-left">
 
-            <div class="w-24 h-24 rounded-full bg-white text-black flex items-center justify-center text-5xl">
+            <div class="w-20 h-20 md:w-24 md:h-24 rounded-full bg-white text-black flex items-center justify-center text-4xl md:text-5xl">
                 <i class="ri-user-3-fill"></i>
             </div>
 
             <div>
-                <h1 class="text-3xl font-bold">
+
+                <h1 class="text-2xl md:text-3xl font-bold">
                     My Account
                 </h1>
+
                 <p class="text-gray-300 mt-2">
                     Manage your account information
                 </p>
+
             </div>
 
         </div>
-        <div class="p-8 space-y-6">
+
+        <div class="p-5 md:p-8 space-y-6">
 
             <div>
+
                 <label class="block text-gray-500 mb-2">
                     Full Name
                 </label>
 
-                <div
-                    class="w-full border border-gray-300 rounded-lg px-4 py-3 bg-gray-50 text-lg font-medium">
+                <div class="w-full border border-gray-300 rounded-lg px-4 py-3 bg-gray-50 text-base md:text-lg font-medium break-words">
                     <%= user.fullname %>
                 </div>
+
             </div>
 
             <div>
+
                 <label class="block text-gray-500 mb-2">
                     Email Address
                 </label>
 
-                <div
-                    class="w-full border border-gray-300 rounded-lg px-4 py-3 bg-gray-50 text-lg font-medium">
+                <div class="w-full border border-gray-300 rounded-lg px-4 py-3 bg-gray-50 text-base md:text-lg font-medium break-all">
                     <%= user.email %>
                 </div>
+
             </div>
 
             <hr>
 
-            <div class="flex gap-4">
+            <div class="flex flex-col sm:flex-row gap-4">
 
-                <a href="/shop"
-                    class="px-6 py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition">
+                <a
+                    href="/shop"
+                    class="w-full sm:w-auto text-center px-6 py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition">
                     Continue Shopping
                 </a>
 
-                <a href="/cart"
-                    class="px-6 py-3 border border-black rounded-lg hover:bg-black hover:text-white transition">
+                <a
+                    href="/cart"
+                    class="w-full sm:w-auto text-center px-6 py-3 border border-black rounded-lg hover:bg-black hover:text-white transition">
                     View Cart
                 </a>
 
